@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact — Stevie" description="Get in touch with Stevie.">
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Contact</h1>
+    </div>
+
+    <div class="contact-info">
+        <p class="contact-intro">
+          For exhibition enquiries, commissions, press, or to purchase a work — get in touch.
+        </p>
+        <dl class="contact-details">
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:stevie@stevie.co.nz">stevie@stevie.co.nz</a></dd>
+          </div>
+          <div>
+            <dt>Instagram</dt>
+            <dd><a href="https://instagram.com/steviemayhew" target="_blank" rel="noopener noreferrer">@steviemayhew</a></dd>
+          </div>
+          <div>
+            <dt>Location</dt>
+            <dd>Henderson, Tāmaki Makaurau Auckland<br />Aoteroa New Zealand</dd>
+          </div>
+        </dl>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .contact-info {
+    padding-bottom: 4rem;
+    max-width: 480px;
+  }
+
+  .contact-intro {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(240, 237, 230, 0.75);
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .contact-details > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+  }
+  .contact-details dt {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .contact-details dd {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .contact-details a {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.1rem;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .contact-details a:hover { opacity: 0.7; }
+
+  .contact-note {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+</style>
+

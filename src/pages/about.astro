@@ -1,0 +1,171 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About — Stevie" description="About Stevie, mixed media artist based in Auckland, New Zealand.">
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">About</h1>
+    </div>
+
+    <!-- Statement -->
+    <section class="statement">
+      <blockquote class="statement-text">
+        "I work as an artist who sits firmly between the digital and physical worlds - much of my work starts with code, gets brought into being by machines and is then lovingly worked by hand."
+      </blockquote>
+    </section>
+
+    <!-- Bio + Image -->
+    <section class="bio-section">
+      <div class="bio-text">
+        <p>
+          Stevie is a mixed media artist based in Henderson, Tāmaki Makaurau, New Zealand. Working
+          across painting, printing and physical production, their practice is grounded in a close
+          attention to material, systems and process.
+        </p>
+        <p>
+          Recent work is focused on bringing digital signals into the real world, and adjusting the
+          expectation that mass produced items cannot be unique. His work is often created utilising
+          industrial machinery, and refined with hand made processes to give joy to individual works.
+        </p>
+        <p>
+          Stevie has exhibited extensively in Sheds, both his own and others. They hold a BSc from
+          Otago University.
+        </p>
+      </div>
+      <div class="bio-image">
+        <img
+          src="/about/portrait.jpg"
+          alt="Stevie in the studio"
+          onerror="this.src='/placeholder.svg'"
+        />
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section class="cv-section">
+      <div class="cv-block">
+        <h2 class="cv-heading">Selected Exhibitions</h2>
+        <ul class="cv-list">
+          <li>
+            <span class="cv-year">2026</span>
+            <span class="cv-detail">WCCAC Members Exhibition</span>
+          </li>
+          <li>
+            <span class="cv-year">2025</span>
+            <span class="cv-detail">38th Trusts Art Exhibition</span>
+          </li>
+          <li>
+            <span class="cv-year">2025</span>
+            <span class="cv-detail">WCCAC Members Exhibition</span>
+          </li>
+        </ul>
+      </div>
+
+<div class="cv-block">
+        <h2 class="cv-heading">Education</h2>
+        <ul class="cv-list">
+          <li>
+            <span class="cv-year">2010</span>
+            <span class="cv-detail">BSc, Otago University</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .statement {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4rem;
+  }
+  .statement-text {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.5vw, 2.25rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    max-width: 900px;
+    color: var(--fg);
+    border: none;
+    padding: 0;
+  }
+
+  .bio-section {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 4rem;
+    align-items: start;
+    margin-bottom: 5rem;
+  }
+  .bio-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .bio-text p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(240, 237, 230, 0.8);
+  }
+  .bio-image {
+    background: var(--card-bg);
+    overflow: hidden;
+  }
+  .bio-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cv-section {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding-bottom: 2rem;
+  }
+  .cv-heading {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+  .cv-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .cv-list li {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.85rem;
+  }
+  .cv-year {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    width: 2.5rem;
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+  }
+  .cv-detail {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .cv-detail em { font-style: italic; }
+
+  @media (max-width: 768px) {
+    .bio-section {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .bio-image { order: -1; }
+  }
+</style>

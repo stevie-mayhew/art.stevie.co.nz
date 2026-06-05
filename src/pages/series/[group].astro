@@ -1,0 +1,107 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { works } from '../../data/works';
+
+export function getStaticPaths() {
+  const groups = [...new Set(works.filter(w => w.group).map(w => w.group as string))];
+  return groups.map(group => ({
+    params: { group: group.toLowerCase().replace(/\s+/g, '-') },
+    props: { group, works: works.filter(w => w.group === group) },
+  }));
+}
+
+const { group, works: seriesWorks } = Astro.props;
+const mediums = ['All', ...new Set(seriesWorks.map(w => w.medium))];
+---
+
+<Layout
+  title={`${group} — Stevie`}
+  description={`Works in the ${group} series by Stevie.`}
+>
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">{group}</h1>
+    </div>
+
+    <div class="filter-bar" role="group" aria-label="Filter by medium">
+      {mediums.map(m => (
+        <button class="filter-btn" class:list={[{ active: m === 'All' }]} data-filter={m}>
+          {m}
+        </button>
+      ))}
+    </div>
+
+    <div class="works-grid" id="works-grid">
+      {seriesWorks.map((work, i) => (
+        <a href={`/works/${work.slug}`} class="work-card" data-medium={work.medium}>
+          <div class="work-image">
+            <img
+              src={work.image}
+              alt={work.title}
+              loading={i < 6 ? 'eager' : 'lazy'}
+              onerror="this.src='/placeholder.svg'"
+            />
+          </div>
+          <span class="work-num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="work-title">{work.title}</span>
+          <span class="work-meta">{work.year} — {work.medium}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+  .filter-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--fg); color: var(--fg); }
+  .filter-btn.active { border-color: var(--accent); color: var(--accent); }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .work-card.hidden { display: none; }
+
+  @media (max-width: 768px) {
+    .works-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .works-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.work-card[data-medium]');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cards.forEach(card => {
+        const show = filter === 'All' || card.dataset.medium === filter;
+        card.classList.toggle('hidden', !show);
+      });
+    });
+  });
+</script>

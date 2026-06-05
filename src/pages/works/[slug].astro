@@ -1,0 +1,221 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { works, mediumDisplay } from '../../data/works';
+
+export function getStaticPaths() {
+  return works.map(work => ({ params: { slug: work.slug }, props: { work } }));
+}
+
+const { work } = Astro.props;
+const currentIndex = works.findIndex(w => w.slug === work.slug);
+const prev = works[currentIndex - 1];
+const next = works[currentIndex + 1];
+---
+
+<Layout
+  title={`${work.title} — Stevie`}
+  description={work.description ?? `${work.title}, ${work.year}. ${mediumDisplay(work.medium)}.`}
+>
+  <div class="container">
+    <a href="/works" class="back-link">&larr; All Works</a>
+
+    <div class="work-detail">
+      <div class="detail-image">
+        <img
+          src={work.image}
+          alt={work.title}
+          onerror="this.src='/placeholder.svg'"
+        />
+      </div>
+
+      <div class="detail-info">
+        <span class="detail-index">{String(currentIndex + 1).padStart(2, '0')} / {String(works.length).padStart(2, '0')}</span>
+        <h1 class="detail-title">{work.title}</h1>
+        <div class="detail-meta">
+          <dl>
+            <div>
+              <dt>Year</dt>
+              <dd>{work.year}</dd>
+            </div>
+            <div>
+              <dt>Medium</dt>
+              <dd>{mediumDisplay(work.medium)}</dd>
+            </div>
+            {work.group && (
+              <div>
+                <dt>Series</dt>
+                <dd>
+                  <a class="series-link" href={`/series/${work.group.toLowerCase().replace(/\s+/g, '-')}`}>
+                    {work.group}
+                  </a>
+                </dd>
+              </div>
+            )}
+            {work.dimensions && (
+              <div>
+                <dt>Dimensions</dt>
+                <dd>{work.dimensions}</dd>
+              </div>
+            )}
+          </dl>
+        </div>
+        {work.description && <p class="detail-description">{work.description}</p>}
+        <a href="/contact" class="enquire-btn">Enquire about this work &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    <nav class="work-nav">
+      <div class="work-nav-prev">
+        {prev && (
+          <a href={`/works/${prev.slug}`} class="work-nav-link">
+            <span class="work-nav-dir">&larr; Previous</span>
+            <span class="work-nav-name">{prev.title}</span>
+          </a>
+        )}
+      </div>
+      <div class="work-nav-next">
+        {next && (
+          <a href={`/works/${next.slug}`} class="work-nav-link">
+            <span class="work-nav-dir">Next &rarr;</span>
+            <span class="work-nav-name">{next.title}</span>
+          </a>
+        )}
+      </div>
+    </nav>
+  </div>
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin: 2.5rem 0;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--fg); }
+
+  .series-link {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.1rem;
+    transition: border-color 0.2s, opacity 0.2s;
+  }
+  .series-link:hover {
+    border-color: var(--fg);
+    opacity: 0.8;
+  }
+
+  .work-detail {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 4rem;
+    align-items: start;
+    margin-bottom: 5rem;
+  }
+
+  .detail-image {
+    background: var(--card-bg);
+    overflow: hidden;
+  }
+  .detail-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .detail-info { padding-top: 1rem; }
+
+  .detail-index {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .detail-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 2rem;
+  }
+
+  .detail-meta dl { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+  .detail-meta dl > div { display: flex; gap: 1rem; }
+  .detail-meta dt {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 80px;
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+  }
+  .detail-meta dd { font-size: 0.9rem; }
+
+  .detail-description {
+    color: rgba(240, 237, 230, 0.75);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .enquire-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid var(--fg);
+    padding: 0.75rem 1.25rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .enquire-btn:hover { background: var(--fg); color: var(--bg); }
+
+  /* Prev / Next */
+  .work-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+  .work-nav-prev { border-right: 1px solid var(--border); }
+  .work-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .work-nav-next .work-nav-link { align-items: flex-end; }
+  .work-nav-link:hover { background: var(--card-bg); }
+  .work-nav-dir {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .work-nav-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    .work-detail {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .work-nav { grid-template-columns: 1fr; }
+    .work-nav-prev { border-right: none; border-bottom: 1px solid var(--border); }
+    .work-nav-next .work-nav-link { align-items: flex-start; }
+  }
+</style>
