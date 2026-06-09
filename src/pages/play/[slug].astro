@@ -1,0 +1,205 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { posts } from '../../data/play';
+
+export function getStaticPaths() {
+  return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function paragraphs(body: string) {
+  return body.split('\n\n').filter(Boolean);
+}
+---
+
+<Layout title={`${post.title} — Play — Stevie`} description={post.excerpt}>
+  <div class="container">
+    <a href="/play" class="back-link">&larr; All Play</a>
+  </div>
+
+  <div class="post-header container">
+    <span class="post-date">{formatDate(post.date)}</span>
+    <h1 class="post-title">{post.title}</h1>
+    <p class="post-excerpt">{post.excerpt}</p>
+  </div>
+
+  <div class="post-cover">
+    <img
+      src={post.coverImage}
+      alt={post.title}
+      loading="eager"
+      onerror="this.src='/placeholder.svg'"
+    />
+  </div>
+
+  <div class="post-body container">
+    {post.content.map(block => {
+      if (block.type === 'text') {
+        return (
+          <div class="block-text">
+            {paragraphs(block.body).map(p => <p>{p}</p>)}
+          </div>
+        );
+      }
+      if (block.type === 'image-full') {
+        return (
+          <div class="block-image-full">
+            <img src={block.src} alt={block.alt} loading="lazy" onerror="this.src='/placeholder.svg'" />
+          </div>
+        );
+      }
+      if (block.type === 'image-inset') {
+        return (
+          <figure class={`block-image-inset align-${block.align ?? 'right'}`}>
+            <img src={block.src} alt={block.alt} loading="lazy" onerror="this.src='/placeholder.svg'" />
+            <figcaption>{block.caption}</figcaption>
+          </figure>
+        );
+      }
+    })}
+  </div>
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin: 2.5rem 0;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--fg); }
+
+  .post-header {
+    margin-bottom: 2.5rem;
+    max-width: 760px;
+  }
+
+  .post-date {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .post-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-excerpt {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 52ch;
+  }
+
+  /* Cover image — full bleed */
+  .post-cover {
+    width: 100%;
+    max-height: 600px;
+    overflow: hidden;
+    margin-bottom: 4rem;
+    background: var(--card-bg);
+  }
+  .post-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Post body */
+  .post-body {
+    max-width: 900px;
+    padding-bottom: 6rem;
+  }
+
+  /* Text blocks — narrower column for readability */
+  .block-text {
+    max-width: 640px;
+    margin: 0 auto 2.5rem;
+  }
+  .block-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(240, 237, 230, 0.85);
+    margin-bottom: 1.25em;
+  }
+  .block-text p:last-child { margin-bottom: 0; }
+
+  /* Full-width images */
+  .block-image-full {
+    width: 100%;
+    background: var(--card-bg);
+    overflow: hidden;
+    margin: 3rem 0;
+  }
+  .block-image-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Inset images */
+  .block-image-inset {
+    background: var(--card-bg);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    max-width: 45%;
+  }
+  .block-image-inset.align-right {
+    float: right;
+    margin: 0.25rem 0 1.5rem 2.5rem;
+  }
+  .block-image-inset.align-left {
+    float: left;
+    margin: 0.25rem 2.5rem 1.5rem 0;
+  }
+  .block-image-inset img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .block-image-inset figcaption {
+    padding: 0.75rem 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    line-height: 1.55;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Clearfix after inset images so full-width images don't wrap under them */
+  .block-image-full { clear: both; }
+  .block-text::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  @media (max-width: 640px) {
+    .post-cover { max-height: 300px; }
+
+    .block-image-inset,
+    .block-image-inset.align-right,
+    .block-image-inset.align-left {
+      float: none;
+      max-width: 100%;
+      margin: 0 0 2rem 0;
+    }
+  }
+</style>

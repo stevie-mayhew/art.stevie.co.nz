@@ -29,6 +29,7 @@ export const works: Artwork[] = [
     dimensions: '600mm x 600mm',
     description: 'Circular is about understanding how close to the limits of a machine tolerance you can get. Cut with a large scoop across the frame, the embedded lines are within a millimeter from cutting through the piece. The circular lines are at the very limit of the placement that allows them to complete without destruction. None of that is true, but it did come out that way.',
     featured: true,
+    group: 'Well Framed'
   },
   {
     slug: 'rotational',
@@ -39,6 +40,7 @@ export const works: Artwork[] = [
     dimensions: '600mm x 600mm',
     description: 'Rotational started from the idea of embedding the work within the frame. The frame was cut and the inner ring discarded. A block was cut to the same dimension as the inner ring and relief printed. Alignment of the frames, art and backing plates was an exercise in frustration and many reprints of the art and recuts of the frame.',
     featured: false,
+    group: 'Well Framed'
   },
   {
     slug: 'triangles',
@@ -49,6 +51,7 @@ export const works: Artwork[] = [
     dimensions: '300mm x 300mm',
     description: 'I am interested in pushing the processes I use to the limit and Triangles was a piece which did just that. Laser engraved Acrylic was used as the block for the relief print, which had its own set of challenges in managing heat disappation across the material. Trying to get the finest detail possible out of the block and the etching press in the printing process, I ended up utilising a simple frame to enable the detail of the work to shine.',
     featured: false,
+    group: 'Well Framed'
   },
   // Oil
   {

@@ -2,7 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 import { works, mediumDisplay, mediumList } from '../../data/works';
 
-const mediums = ['All', ...new Set(works.flatMap(w => mediumList(w.medium)))];
+const mediumCounts = works.flatMap(w => mediumList(w.medium)).reduce<Record<string, number>>((acc, m) => {
+  acc[m] = (acc[m] ?? 0) + 1;
+  return acc;
+}, {});
+const mediums = ['All', ...Object.keys(mediumCounts).sort((a, b) => mediumCounts[b] - mediumCounts[a])];
 ---
 
 <Layout title="Works — Stevie" description="A selection of works by Stevie.">

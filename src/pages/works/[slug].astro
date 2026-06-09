@@ -15,6 +15,7 @@ const next = works[currentIndex + 1];
 <Layout
   title={`${work.title} — Stevie`}
   description={work.description ?? `${work.title}, ${work.year}. ${mediumDisplay(work.medium)}.`}
+  ogImage={work.image}
 >
   <div class="container">
     <a href="/works" class="back-link">&larr; All Works</a>
