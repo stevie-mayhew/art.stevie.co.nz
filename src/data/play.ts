@@ -16,7 +16,7 @@ export const posts: PlayPost[] = [
   {
     slug: 'tones-by-halves',
     title: 'Tones by Halves',
-    date: '2026-05-20',
+    date: '2025-08-20',
     excerpt: 'What happens when you take photos, turn them into dots and run them through a press.',
     coverImage: '/play/print-photos/toby-photo.jpg',
     content: [
@@ -53,7 +53,7 @@ export const posts: PlayPost[] = [
         type: 'image-inset',
         src: '/play/print-photos/toby-block.jpg',
         alt: 'The acrylic block used for all the prints in the session',
-        caption: 'A test block itself after a few prints had been made.',
+        caption: 'A test block after a few prints had been made.',
         align: 'left',
       },
       {
